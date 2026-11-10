@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>执行流程 · 湖南大学 2028 届秋招求职作战计划</title>
+<meta name="description" content="每次运行的 7 项任务、10 步标准作业流程、数据链路与报告输出规范。">
+<meta name="author" content="湖南大学 2028 届求职计划">
+<meta name="theme-color" content="#0c2144">
+<meta property="og:title" content="执行流程 · 湖南大学 2028 届秋招求职作战计划">
+<meta property="og:description" content="每次运行的 7 项任务、10 步标准作业流程、数据链路与报告输出规范。">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html" aria-label="返回站点首页">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.9"
+ stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.6"/>
+<path d="M12 1.8v3.1M12 19.1v3.1M1.8 12h3.1M19.1 12h3.1"/></svg></span>
+      <span class="brand-text">湖大秋招作战计划<small>HNU 2028 · CAREER INTELLIGENCE</small></span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="index.html">总览</a>
+      <a href="profile.html">定位</a>
+      <a href="workflow.html">流程</a>
+      <a href="sources.html">数据源</a>
+      <a href="rules.html">筛选规则</a>
+      <a href="strategy.html">行动策略</a>
+      <a href="actions.html">行动清单</a>
+      <a href="library.html">企业库</a>
+    </nav>
+    <button class="nav-toggle" type="button" aria-label="展开导航" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+
+<section class="pagehead">
+  <div class="wrap pagehead-inner">
+    <div class="crumb"><a href="index.html">总览</a> / 执行流程</div>
+    <span class="page-num">CHAPTER 02</span>
+    <h1>执行流程与输出规范</h1>
+    <p>把一次例行运行拆成<strong>可重复的 10 步</strong>：抓取 → 校验 → 复查 → 打标 → 排路线 → 出报告。</p>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <section class="section" id="sop">
+    <div class="section-head">
+      <span class="eyebrow">2.1 / SOP</span>
+      <h2>标准作业流程（10 步）</h2>
+      <p>顺序不可随意调换：先拿全量、再用首页校验、最后才打匹配度。</p>
+    </div>
+    <div class="grid g-side">
+      <div class="flow">
+        <div class="flow-step"><span class="flow-n">01</span><div class="flow-b"><b>取全量场次</b><p><code>getcareers</code> count=500 带 headers，按 <code>meet_day &gt;= 今天</code> 过滤，按日期 + 时间排序。</p></div></div>
+        <div class="flow-step"><span class="flow-n">02</span><div class="flow-b"><b>首页 + /api/career 核对</b><p>核对「日期 + 时间 + 教室」；API 与首页不一致时<strong>以首页为准</strong>。</p></div></div>
+        <div class="flow-step"><span class="flow-n">03</span><div class="flow-b"><b>拿全部双选会</b><p><code>/api/jobfairs</code> 含校外场，记下 <code>fair_id</code>。首页看不到校外场。</p></div></div>
+        <div class="flow-step"><span class="flow-n">04</span><div class="flow-b"><b>逐个复查参会企业</b><p>对每个未开始的 fair_id 调 <code>hr.bysjy.com.cn</code> 取 <code>companies[]</code>；名单分批更新，每次运行都必须复查。</p></div></div>
+        <div class="flow-step"><span class="flow-n">05</span><div class="flow-b"><b>实习网申比对</b><p><code>getonlines?recruit_type=实习招聘</code>，与上一轮快照比对新增 / 下架条目。</p></div></div>
+        <div class="flow-step"><span class="flow-n">06</span><div class="flow-b"><b>抓高对口场简章</b><p>逐个 <code>/detail/career?id=</code>，提取岗位表、薪资、学历、面试间、网申链接。</p></div></div>
+        <div class="flow-step"><span class="flow-n">07</span><div class="flow-b"><b>打匹配度</b><p>按筛选规则打「高 / 中高 / 中 / 跳过」。</p></div></div>
+        <div class="flow-step"><span class="flow-n">08</span><div class="flow-b"><b>按教学楼分组排路线</b><p>同楼连场合并成一次出行；跨校区（科创港）标注「单程约 2 小时，只给必去级」。</p></div></div>
+        <div class="flow-step"><span class="flow-n">09</span><div class="flow-b"><b>按输出规范写报告</b><p>固定 9 章节，文件名带当天日期。</p></div></div>
+        <div class="flow-step"><span class="flow-n">10</span><div class="flow-b"><b>交付 + 记忆维护</b><p>交付文件，并把「本轮新发现 / 纠错 / 待跟进 / 产出文件名」写入任务记忆，只写高层摘要。</p></div></div>
+      </div>
+      <div>
+        <div class="toc">
+          <h4>本页目录</h4>
+          <a href="#sop">标准作业流程</a>
+          <a href="#links">数据链路图</a>
+          <a href="#spec">报告输出规范</a>
+          <a href="#formats">排版与命名</a>
+          <a href="#weekend">无场次日处理</a>
+        </div>
+        <div class="callout ok mt24">
+          <div class="ct"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+ stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="9"/><path d="m8 12 2.7 2.7L16 9.3"/></svg> 流程里最容易被跳过的一步</div>
+          <p class="mb0"><strong>第 4 步：名单复查。</strong>双选会 <code>companies[]</code> 分批放量，
+          本轮就出现 49 → 96 家的翻倍。只跑一次会严重低估场次价值。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="links">
+    <div class="section-head">
+      <span class="eyebrow">2.2 / Data pipeline</span>
+      <h2>数据链路：三个域、七类接口</h2>
+      <p>校内就业网负责场次与简章，第三方域负责校外双选会参会名单，最后汇总成一份报告。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 1000 330" role="img" aria-label="数据链路示意图">
+        <rect x="0" y="0" width="1000" height="330" fill="#fff"/>
+        <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#9db2cf"/></marker></defs>
+        <g font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+          <rect x="24" y="26" width="300" height="278" rx="14" fill="#f5f8fd" stroke="#dbe6f5"/>
+          <text x="44" y="52" font-size="13" font-weight="700" fill="#14509b">域 A　scc.hnu.edu.cn（校内就业网）</text>
+          <g font-size="11" fill="#334a6c">
+            <rect x="44" y="66" width="260" height="34" rx="7" fill="#fff" stroke="#e2e9f3"/><text x="56" y="88">module/getcareers　全量宣讲会</text>
+            <rect x="44" y="108" width="260" height="34" rx="7" fill="#fff" stroke="#e2e9f3"/><text x="56" y="130">module/getonlines　实习 / 正式网申</text>
+            <rect x="44" y="150" width="260" height="34" rx="7" fill="#fff" stroke="#e2e9f3"/><text x="56" y="172">api/jobfairs + api/career　双选会 / 快查</text>
+            <rect x="44" y="192" width="260" height="34" rx="7" fill="#fff" stroke="#e2e9f3"/><text x="56" y="214">首页 / 日历 / 通知公告　校验与发现</text>
+            <rect x="44" y="234" width="260" height="48" rx="7" fill="#eaf1fc" stroke="#c9dcf7"/>
+            <text x="56" y="254">detail/career?id=　简章全文</text>
+            <text x="56" y="272" font-size="10" fill="#6b83a8">PAGE_DATA → jobs[] / practices[] / 面试间</text>
+          </g>
+
+          <rect x="352" y="26" width="296" height="132" rx="14" fill="#f2faf8" stroke="#c6e4df"/>
+          <text x="372" y="52" font-size="13" font-weight="700" fill="#0f766e">域 B　hr.bysjy.com.cn（校外双选会）</text>
+          <g font-size="11" fill="#334a6c">
+            <rect x="372" y="66" width="256" height="34" rx="7" fill="#fff" stroke="#e2e9f3"/><text x="384" y="88">get_jobfair_detail?fair_id=</text>
+            <rect x="372" y="108" width="256" height="34" rx="7" fill="#fff" stroke="#e2e9f3"/><text x="384" y="130">companies[] / content 简章原文</text>
+          </g>
+
+          <rect x="352" y="172" width="296" height="132" rx="14" fill="#fdf6ee" stroke="#f0dcc1"/>
+          <text x="372" y="198" font-size="13" font-weight="700" fill="#a4531a">校验与解析规则</text>
+          <g font-size="10.8" fill="#334a6c">
+            <text x="374" y="222">· 必需 X-Requested-With + Referer</text>
+            <text x="374" y="242">· 括号配对法解析 PAGE_DATA</text>
+            <text x="374" y="262">· 列表消失 → 查 current_status</text>
+            <text x="374" y="282">· 企业数 delta 判断放量</text>
+          </g>
+
+          <line x1="326" y1="150" x2="350" y2="150" stroke="#9db2cf" stroke-width="2" marker-end="url(#a2)"/>
+          <line x1="650" y1="92" x2="684" y2="92" stroke="#9db2cf" stroke-width="2" marker-end="url(#a2)"/>
+          <line x1="650" y1="238" x2="684" y2="238" stroke="#9db2cf" stroke-width="2" marker-end="url(#a2)"/>
+
+          <rect x="688" y="26" width="288" height="278" rx="14" fill="#14213d"/>
+          <text x="708" y="52" font-size="13" font-weight="700" fill="#8fdccb">产出　每日 Markdown 报告</text>
+          <g font-size="11" fill="#cfdff0">
+            <text x="708" y="82">① 今日概况 + 3 个重要更新</text>
+            <text x="708" y="106">② 必去 / 高对口活动</text>
+            <text x="708" y="130">③ 其余校内宣讲会（跳过清单）</text>
+            <text x="708" y="154">④ 实习网申动态</text>
+            <text x="708" y="178">⑤ 校外双选会时间线</text>
+            <text x="708" y="202">⑥ 7 天行动清单（checkbox）</text>
+            <text x="708" y="226">⑦ 提效方法（本轮新增 2–4 条）</text>
+            <text x="708" y="250">⑧ 目标企业库累计表</text>
+            <text x="708" y="274">⑨ 数据来源 + 生成时间</text>
+          </g>
+          <text x="708" y="296" font-size="10" fill="#8ba5c4">文件名：湖南大学秋招活动筛选_YYYY-MM-DD.md</text>
+        </g>
+      </svg>
+      <figcaption>图 3　数据链路与报告固定章节。接口细节见「数据源与接口」。</figcaption>
+    </figure>
+  </section>
+
+  <section class="section" id="spec">
+    <div class="section-head">
+      <span class="eyebrow">2.3 / Report spec</span>
+      <h2>报告输出规范：固定 9 章节</h2>
+      <p>章节顺序固定，便于每天纵向对比；周末与无场次日也要运行。</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>序</th><th>章节</th><th>核心内容</th><th>要点</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>今日概况</td><td>抓取量、校验结果</td><td>+ 与上一版相比的 3 个重要更新</td></tr>
+          <tr><td>2</td><td>必去 / 高对口活动</td><td>按时间逐条展开</td><td>企业简介 · 时间 · 地点 · 匹配度 · 岗位 · 网申 · 路线</td></tr>
+          <tr><td>3</td><td>其余校内宣讲会</td><td>可跳过 / 低优先级清单</td><td>每条写跳过原因</td></tr>
+          <tr><td>4</td><td>实习网申动态</td><td>2028 届主通道</td><td>列出对口条目，比对新增 / 下架</td></tr>
+          <tr><td>5</td><td>校外双选会时间线</td><td>企业数 / 对口率</td><td>窗口内 + 窗口外提前排期</td></tr>
+          <tr><td>6</td><td>本周行动清单</td><td>今天之后 7 天</td><td>带 checkbox，按教学楼分组排路线</td></tr>
+          <tr><td>7</td><td>提效方法</td><td>本轮新增 2–4 条</td><td>不复读已沉淀方法</td></tr>
+          <tr><td>8</td><td>目标企业库累计表</td><td>滚动维护</td><td>企业库与提效方法都在报告里滚动</td></tr>
+          <tr><td>9</td><td>数据来源 + 生成时间</td><td>接口清单与时间戳</td><td>末尾标注</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="formats">
+    <div class="section-head">
+      <span class="eyebrow">2.4 / Convention</span>
+      <h2>命名、排版与记忆约定</h2>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>文件与自动化</h3>
+        <ul class="clean mb0">
+          <li>报告文件名 <code>湖南大学秋招活动筛选_YYYY-MM-DD.md</code>，写到工作区根目录</li>
+          <li>例行执行时间：每天 <strong>05:10</strong></li>
+          <li><strong>只发文字不算完成，必须交付文件</strong></li>
+          <li>金额 / 比例保留<strong>两位小数</strong>，如 <code>18.00K–20.00K/月</code>、<code>45.83%</code></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>记忆维护</h3>
+        <ul class="clean mb0">
+          <li>只往任务记忆写高层摘要：日期 / 数据源 / 3–5 条关键发现 / 待跟进 / 文件名</li>
+          <li><strong>绝不</strong>写报告正文、完整企业名单或简章全文</li>
+          <li>累计的企业库与提效方法只在报告里滚动，不另建第二份台账</li>
+          <li>改规则时同步改自动化 prompt，不要只改本地文件</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout neutral mt24" id="weekend">
+      <div class="ct"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+ stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg> 周末 / 无场次日</div>
+      <p class="mb0">也要照常运行，报告简短说明「今日无场次」并给出未来 7 天窗口，<strong>不要输出空占位符</strong>。</p>
+    </div>
+  </section>
+
+</main>
+
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.9"
+ stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.6"/>
+<path d="M12 1.8v3.1M12 19.1v3.1M1.8 12h3.1M19.1 12h3.1"/></svg></span>
+          <b>湖南大学 2028 届秋招求职作战计划</b>
+        </div>
+        <p>一份面向 2028 届硕士研究生的秋招情报作业计划。2026 年秋的场次绝大多数面向 2027 届，
+        因此本季以「实习通道 + 建立目标企业库」为主，正式秋招在 2027 年秋。</p>
+        <p class="small" style="color:#8ba5c4">就业信息主源：湖南大学就业信息网 scc.hnu.edu.cn
+        与公众号「湖南大学毕业生就业」。</p>
+      </div>
+      <div>
+        <h4>站点导航</h4>
+        <div class="f-links">
+        <a href="index.html">总览</a>
+        <a href="profile.html">定位</a>
+        <a href="workflow.html">流程</a>
+        <a href="sources.html">数据源</a>
+        <a href="rules.html">筛选规则</a>
+        <a href="strategy.html">行动策略</a>
+        <a href="actions.html">行动清单</a>
+        <a href="library.html">企业库</a>
+        </div>
+      </div>
+      <div>
+        <h4>关于本站</h4>
+        <div class="f-links">
+          <a href="library.html#records">执行记录</a>
+          <a href="sources.html#source">数据来源</a>
+          <a href="library.html#spec">报告输出规范</a>
+          <a href="index.html#summary">计划摘要</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>内容依据：秋招活动筛选作业计划 + 2026-11-08 / 11-09 / 11-10 三份执行报告</span>
+      <span>生成时间 2026-11-10 · 静态站点，无外部依赖</span>
+    </div>
+  </div>
+</footer>
+
+<button class="backtop" type="button" aria-label="回到顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+ stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

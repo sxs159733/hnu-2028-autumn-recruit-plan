@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>数据源与接口 · 湖南大学 2028 届秋招求职作战计划</title>
+<meta name="description" content="湖南大学就业信息网主数据源、必需 Headers、已知废弃路径与解析纠错记录。">
+<meta name="author" content="湖南大学 2028 届求职计划">
+<meta name="theme-color" content="#0c2144">
+<meta property="og:title" content="数据源与接口 · 湖南大学 2028 届秋招求职作战计划">
+<meta property="og:description" content="湖南大学就业信息网主数据源、必需 Headers、已知废弃路径与解析纠错记录。">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html" aria-label="返回站点首页">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.9"
+ stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.6"/>
+<path d="M12 1.8v3.1M12 19.1v3.1M1.8 12h3.1M19.1 12h3.1"/></svg></span>
+      <span class="brand-text">湖大秋招作战计划<small>HNU 2028 · CAREER INTELLIGENCE</small></span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="index.html">总览</a>
+      <a href="profile.html">定位</a>
+      <a href="workflow.html">流程</a>
+      <a href="sources.html">数据源</a>
+      <a href="rules.html">筛选规则</a>
+      <a href="strategy.html">行动策略</a>
+      <a href="actions.html">行动清单</a>
+      <a href="library.html">企业库</a>
+    </nav>
+    <button class="nav-toggle" type="button" aria-label="展开导航" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+
+<section class="pagehead">
+  <div class="wrap pagehead-inner">
+    <div class="crumb"><a href="index.html">总览</a> / 数据源与接口</div>
+    <span class="page-num">CHAPTER 03</span>
+    <h1>数据源与接口</h1>
+    <p>计划里所有可复用的抓取入口、<strong>必需的 Headers</strong>，以及已经验证会失败、不必再试的路径。</p>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <section class="section" id="source">
+    <div class="section-head">
+      <span class="eyebrow">3.1 / Endpoints</span>
+      <h2>主数据源与 Headers</h2>
+      <p>就业信息主源为 <code>scc.hnu.edu.cn</code> 与公众号「湖南大学毕业生就业」。
+      下列接口均为计划内已验证可用的路径。</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>用途</th><th>接口</th><th>关键参数 / 说明</th></tr></thead>
+        <tbody>
+          <tr><td><b>全量宣讲会</b></td>
+            <td class="mono">GET /module/getcareers</td>
+            <td><code>type=inner</code>、<code>count=500</code>、<code>start_page / start / count</code>。<br>
+              字段：<code>meet_day</code> 日期、<code>room</code> 教室、<code>view_count</code> 浏览量、<code>career_talk_id</code> 详情 id。</td></tr>
+          <tr><td><b>实习网申</b></td>
+            <td class="mono">GET /module/getonlines</td>
+            <td><code>recruit_type=实习招聘</code> 必须传中文；传数字会返回空。<code>count=200</code>。</td></tr>
+          <tr><td><b>双选会列表</b></td>
+            <td class="mono">GET /api/jobfairs</td>
+            <td>含校外场，首页看不到；记下 <code>fair_id</code>。</td></tr>
+          <tr><td><b>最近 6 场快查</b></td>
+            <td class="mono">GET /api/career</td>
+            <td>与首页交叉校验。</td></tr>
+          <tr><td><b>首页</b></td>
+            <td class="mono">GET /</td>
+            <td>校验日期 + 时间 + 地点最准；冲突时<strong>以首页为准</strong>。</td></tr>
+          <tr><td><b>宣讲会简章全文</b></td>
+            <td class="mono">GET /detail/career?id={career_talk_id}</td>
+            <td>可读岗位表、薪资、面试间章节、网申链接。</td></tr>
+          <tr><td><b>校外双选会名单</b></td>
+            <td class="mono">GET hr.bysjy.com.cn/jobfair/get_jobfair_detail</td>
+            <td><code>fair_id={id}&amp;is_debug=1</code>；取 <code>data.companies[]</code> 的 <code>company_name</code> / <code>view_count</code>，及 <code>data.content</code> 简章原文。</td></tr>
+          <tr><td><b>日历视图</b></td>
+            <td class="mono">GET /index/getcareerdays</td>
+            <td><code>year_month / type / get_activity / panel_name / panel_id / is_yun_career</code>。</td></tr>
+          <tr><td><b>通知公告</b></td>
+            <td class="mono">GET /module/getnotices?type_id=4124</td>
+            <td>4124 = 通知公告，1759 = 重点推介。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid g2 mt24">
+      <div class="card card-brand">
+        <h3>校内接口必需 Headers</h3>
+        <p class="small mb8"><code>getcareers</code> 不带这两个头会返回 <strong>400</strong>：</p>
+        <p class="mono mb8">X-Requested-With: XMLHttpRequest<br>Referer: https://scc.hnu.edu.cn/module/careers?type=inner</p>
+        <p class="small muted mb0">同源其它接口复用同一组头即可。</p>
+      </div>
+      <div class="card card-teal">
+        <h3>校外双选会必需 Headers</h3>
+        <p class="small mb8"><code>get_jobfair_detail</code> 需要：</p>
+        <p class="mono mb8">X-Requested-With: XMLHttpRequest<br>Referer: https://hr.bysjy.com.cn/campus/jobfair_detail_v1?fair_id={id}<br>User-Agent: (浏览器 UA)</p>
+        <p class="small muted mb0">带 <code>is_debug=1</code> 可拿到 <code>companies[]</code> 与简章原文。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">3.2 / Deprecated</span>
+      <h2>已知废弃 / 会失败的路（别再试）</h2>
+      <p>这些是计划内已经踩过并记录下来的坑，属于「重点信息」，保留以免重复浪费时间。</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>错误做法</th><th>结果</th><th>正确替代</th></tr></thead>
+        <tbody>
+          <tr><td><code>/module/careers?type=inner&amp;starttime=&amp;endtime=</code></td><td>常返回空壳日历</td><td>用 <code>getcareers</code> 全量后本地按日期过滤</td></tr>
+          <tr><td><code>/module/getcareers</code> 不带 headers</td><td>400</td><td>补 X-Requested-With + Referer</td></tr>
+          <tr><td><code>type=intern</code> / <code>type=large</code></td><td>无效</td><td>固定 <code>type=inner</code></td></tr>
+          <tr><td><code>/module/jobfair</code></td><td>404</td><td><code>/api/jobfairs</code></td></tr>
+          <tr><td><code>/api/news</code> 无参数</td><td>「新闻类别不能为空」</td><td>参数未知，改走通知公告接口</td></tr>
+          <tr><td><code>/detail/jobfair?id=</code> 查校外场</td><td>「校外招聘信息禁止查看详情」</td><td>走 <code>hr.bysjy.com.cn</code></td></tr>
+          <tr><td><code>/detail/career_schedule_img?career_id=</code></td><td>二维码 jpeg，不是日程文字</td><td>读详情页面试间章节</td></tr>
+          <tr><td>列表字段 <code>used_interview_list</code></td><td>全为 null</td><td>改读详情页「## 面试间」章节（已验证可读）</td></tr>
+          <tr><td>参数名 <code>starttime / endtime</code></td><td>无效</td><td>参数是 <code>start_page / start / count</code></td></tr>
+          <tr><td>正则 <code>window.PAGE_DATA = (\{.*?\})\);</code></td><td>解析失败</td><td><strong>括号配对法</strong>处理转义与嵌套花括号</td></tr>
+          <tr><td>批量抓详情时覆盖 <code>details.json</code></td><td>丢失历史</td><td><strong>合并而非覆盖</strong>已有 details.json</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">3.3 / Corrections</span>
+      <h2>历史纠错记录</h2>
+      <p>口径类错误一旦写进结论就会反复误导，因此单独沉淀。</p>
+    </div>
+    <div class="grid g2">
+      <div class="card tight card-accent"><h3>报名截止 ≠ 学生报名</h3><p class="mb0">双选会页面「报名截止」是<strong>企业报名截止</strong>；学生凭校园卡 / 学生证直接入场，无需报名。</p></div>
+      <div class="card tight card-accent"><h3>主办方归属</h3><p class="mb0">11/14 智能制造类双选会主办方是<strong>湖南机电职业技术学院</strong>，不是长沙理工大学。</p></div>
+      <div class="card tight card-accent"><h3>届别</h3><p class="mb0">用户是 <strong>2028 届</strong>，不是 2027 届。</p></div>
+      <div class="card tight card-accent"><h3>企业「消失」判定</h3><p class="mb0">须跨源查完宣讲会排期 + 全部双选会 <code>companies[]</code> 才能判退出；广州高澜实为「岳阳高澜」转移到 11/24 机械类场。</p></div>
+      <div class="card tight card-accent"><h3>列表消失 ≠ 活动取消</h3><p class="mb0"><code>/api/jobfairs</code> 是滚动窗口；判定下架必须查详情 <code>current_status</code>。31909 曾消失又回归。</p></div>
+      <div class="card tight card-accent"><h3>占位公司名</h3><p class="mb0">「就业办2019」不是脏数据，须读详情 <code>meet_name</code>；真身是 N 城联动湖南大学专场。</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">3.4 / Fields</span>
+      <h2>关键字段速查</h2>
+      <p>结构化信号优先于标题与推断，这是筛选规则能落地的前提。</p>
+    </div>
+    <dl class="kv">
+      <dt>meet_day / room</dt><dd>宣讲会日期 / 教室；首页为准。</dd>
+      <dt>view_count</dt><dd>浏览量；<strong>浏览量 ÷ 招聘人数 = 竞争热度</strong>，浏览量 &lt; 100 通常刚上线、竞争小好聊。</dd>
+      <dt>career_talk_id / fair_id</dt><dd>简章全文 / 双选会详情的主键。</dd>
+      <dt>companies[]</dt><dd>校外双选会参会企业；<code>professionals</code> / <code>job_recruitment</code> 多为空，须按 <code>company_name</code> 做关键词匹配。</dd>
+      <dt>about_major</dt><dd>岗位表需求专业；<strong>岗位表学历列先于人数看</strong>。</dd>
+      <dt>job_number / degree_require</dt><dd>招聘人数 / 学历要求；<code>is_above_master_degree</code> = 硕士岗。</dd>
+      <dt>salary / city_name</dt><dd>薪资 / 工作城市；<strong>薪资是否明写 = 企业诚意</strong>。</dd>
+      <dt>job_require</dt><dd>岗位任职要求原文，届别与专业清单常藏在这里，须下沉扫描。</dd>
+      <dt>used_interview_list</dt><dd>面试间；「面试间」章节 = 现场面试信号，<strong>优先级高于宣讲时间</strong>。</dd>
+      <dt>current_status</dt><dd>双选会是否未开始；列表消失时以此为准。</dd>
+    </dl>
+    <div class="callout warn mt24">
+      <div class="ct"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+ stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M10.3 3.9 2.2 18a2 2 0 0 0 1.7 3h16.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/>
+<path d="M12 9v4M12 17h.01"/></svg> 两个高频口径陷阱</div>
+      <p class="mb0"><strong>「1 职位 N 百人」</strong> = 统一网申入口，现场不收纸质简历；
+      <strong>「不限专业」</strong>不是跳过理由，也不是高匹配依据——军工研究所常这样写，但任职要求里明确偏好机械 / 控制 / 测控。</p>
+    </div>
+  </section>
+
+</main>
+
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.9"
+ stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.6"/>
+<path d="M12 1.8v3.1M12 19.1v3.1M1.8 12h3.1M19.1 12h3.1"/></svg></span>
+          <b>湖南大学 2028 届秋招求职作战计划</b>
+        </div>
+        <p>一份面向 2028 届硕士研究生的秋招情报作业计划。2026 年秋的场次绝大多数面向 2027 届，
+        因此本季以「实习通道 + 建立目标企业库」为主，正式秋招在 2027 年秋。</p>
+        <p class="small" style="color:#8ba5c4">就业信息主源：湖南大学就业信息网 scc.hnu.edu.cn
+        与公众号「湖南大学毕业生就业」。</p>
+      </div>
+      <div>
+        <h4>站点导航</h4>
+        <div class="f-links">
+        <a href="index.html">总览</a>
+        <a href="profile.html">定位</a>
+        <a href="workflow.html">流程</a>
+        <a href="sources.html">数据源</a>
+        <a href="rules.html">筛选规则</a>
+        <a href="strategy.html">行动策略</a>
+        <a href="actions.html">行动清单</a>
+        <a href="library.html">企业库</a>
+        </div>
+      </div>
+      <div>
+        <h4>关于本站</h4>
+        <div class="f-links">
+          <a href="library.html#records">执行记录</a>
+          <a href="sources.html#source">数据来源</a>
+          <a href="library.html#spec">报告输出规范</a>
+          <a href="index.html#summary">计划摘要</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>内容依据：秋招活动筛选作业计划 + 2026-11-08 / 11-09 / 11-10 三份执行报告</span>
+      <span>生成时间 2026-11-10 · 静态站点，无外部依赖</span>
+    </div>
+  </div>
+</footer>
+
+<button class="backtop" type="button" aria-label="回到顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+ stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
